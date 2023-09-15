@@ -5,20 +5,31 @@ pygame.init()
 screen = pygame.display.set_mode(( 800, 600 ))
 
 
-#title and icon
-pygame.display.set_caption("My Game")
+#Title and icon
+pygame.display.set_caption("My game")
 icon = pygame.image.load('joystick.png')
 pygame.display.set_icon(icon)
 
+#player
 
+playerImg = pygame.image.load('spaceship.png')
+playerX = 100
+playerY = 100
+
+def player():
+    screen.blit(playerImg, (playerX, playerY))
 
 #Game loop
 running = True
 while running:
+
+    screen.fill((0, 0, 0))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
 
-    screen.fill((255,150,0))
+
+    player()
     pygame.display.update()
