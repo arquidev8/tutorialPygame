@@ -16,6 +16,7 @@ playerX = 400
 playerY = 300
 playerX_change = 0
 
+
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
@@ -31,13 +32,21 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -0.1
+                playerX_change = -0.4
             if event.key == pygame.K_RIGHT:
-                playerX_change = 0.1
+                playerX_change = 0.4
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
 
+
     playerX += playerX_change
+
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736:
+        playerX = 736
+
     player(playerX, playerY)
     pygame.display.update()
