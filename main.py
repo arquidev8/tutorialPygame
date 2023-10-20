@@ -24,12 +24,27 @@ enemyY = random.randint(50, 150)
 enemyX_change = 0.3
 enemyY_change = 40
 
+#gun fire
+gunImg = pygame.image.load('gun.png')
+gunX = 0
+gunY = 500
+gunX_change = 0
+gunY_change = 10
+gun_state = "ready"
+
+#background
+background = pygame.image.load('background.png')
+
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
 def enemy(x, y):
     screen.blit(enemyImg, (x, y))
 
+def fire_gun(x,y):
+    global gun_state
+    gun_state ="fire"
+    screen.blit(gunImg,(x + 16,y + 10))
 
 
 #Game loop
@@ -37,6 +52,8 @@ running = True
 while running:
 
     screen.fill((0, 0, 0))
+
+    screen.blit(background, (0,0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -47,12 +64,14 @@ while running:
                 playerX_change = -0.4
             if event.key == pygame.K_RIGHT:
                 playerX_change = 0.4
+            if event.key == pygame.K_SPACE:
+                fire_gun(playerX, gunY)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
 
-
+    #player windows limits
     playerX += playerX_change
 
     if playerX <= 0:
@@ -60,7 +79,7 @@ while running:
     elif playerX >= 736:
         playerX = 736
 
-
+    #move enemy
     enemyX += enemyX_change
 
     if enemyX <= 0:
@@ -70,6 +89,10 @@ while running:
         enemyX_change = -0.3
         enemyY += enemyY_change
 
+    #gun movement
+    if gun_state == "fire":
+        fire_gun(playerX,gunY)
+        gunY -= gunY_change
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
