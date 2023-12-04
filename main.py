@@ -100,7 +100,7 @@ while running:
         enemyX_change = 0.3
         enemyY += enemyY_change
     elif enemyX >= 736:
-        enemyX_change = -4
+        enemyX_change = -0.4
         enemyY += enemyY_change
 
 
@@ -120,7 +120,7 @@ while running:
         gun_state = "ready"
         score += 1
         print(score)
-        enemyX = random.randint(0, 800)
+        enemyX = random.randint(0, 735)
         enemyY = random.randint(50, 150)
 
     player(playerX, playerY)
