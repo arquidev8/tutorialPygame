@@ -1,3 +1,5 @@
+import math
+
 import pygame
 import random
 
@@ -19,7 +21,7 @@ playerX_change = 0
 
 #enemy
 enemyImg = pygame.image.load('alien.png')
-enemyX = random.randint(0, 800)
+enemyX = random.randint(0, 735)
 enemyY = random.randint(50, 150)
 enemyX_change = 0.3
 enemyY_change = 40
@@ -35,6 +37,8 @@ gun_state = "ready"
 #background
 background = pygame.image.load('background.png')
 
+score = 0
+
 def player(x, y):
     screen.blit(playerImg, (x, y))
 
@@ -46,6 +50,13 @@ def fire_gun(x,y):
     gun_state = "fire"
     screen.blit(gunImg,(x +16 ,y + 10))
 
+
+def isCollision(enemyX, enemyY, gunX, gunY):
+    distance = math.sqrt((math.pow(enemyX-gunX,2)) + (math.pow(enemyY-gunY,2)))
+    if distance < 27:
+        return True
+    else:
+        return False
 
 #Game loop
 running = True
@@ -89,7 +100,7 @@ while running:
         enemyX_change = 0.3
         enemyY += enemyY_change
     elif enemyX >= 736:
-        enemyX_change = -0.3
+        enemyX_change = -4
         enemyY += enemyY_change
 
 
@@ -101,6 +112,16 @@ while running:
     if gun_state == "fire":
         fire_gun(gunX, gunY)
         gunY -= gunY_change
+
+
+    collision = isCollision(enemyX, enemyY, gunX, gunY)
+    if collision:
+        gunY = 480
+        gun_state = "ready"
+        score += 1
+        print(score)
+        enemyX = random.randint(0, 800)
+        enemyY = random.randint(50, 150)
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
